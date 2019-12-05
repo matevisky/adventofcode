@@ -1,5 +1,21 @@
 {
+<<<<<<< HEAD
   "dependencies": {
     "jest": "^24.9.0"
   }
+=======
+  "name": "2019",
+  "version": "1.0.0",
+  "description": "",
+  "main": "day0102.js",
+  "dependencies": {
+    "jest": "^24.9.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+>>>>>>> d1ba4c02fca37167cb952529ffb83b74289e3fac
 }

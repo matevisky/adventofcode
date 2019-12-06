@@ -58,3 +58,5 @@ feedMap(path2, 2);
 
 // console.log(map)
 console.log(findShortest())
+
+test("dummy", () => { })

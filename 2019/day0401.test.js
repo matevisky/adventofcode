@@ -1,41 +1,62 @@
 
-let res = 0;
+
 
 const rule1 = x => {
-  let res = false
-  let current = '';
-  let c = 0
-  x.split('').forEach((i, ii, a) => {
-    if (i == current && (a[ii + 1] || 0) != i && (a[ii - 2] || 0) != i) {
-      res = true
-    }
-    current = i
-  })
-  return res
+  xArr = x.toString().split('');
+  for (let i = 1; i < xArr.length; i++) {
+    if (xArr[i] != xArr[i - 1]) continue;
+    if (xArr[i] == xArr[i + 1]) continue;
+    if (xArr[i] == xArr[i - 2]) continue;
+
+    if (xArr[i] == xArr[i - 1]) return true;
+  }
+  return false
 }
 
 const rule2 = x => {
-  let res = true
-  let current = '';
-  x.split('').forEach(i => {
-    if (i < current) {
-      res = false
-    }
-    current = i
-  })
-  return res
-}
-
-// console.log(rule1('10112223'))
-// console.log(rule2('112231'))
-
-for (let i = 264360; i <= 746325; i++) {
-  if (rule1(i.toString()) && rule2(i.toString())) {
-    res++;
+  xArr = x.toString().split('');
+  for (let i = 1; i < xArr.length; i++) {
+    if (xArr[i] < xArr[i - 1]) return false;
   }
+  return true;
 }
 
+const searchCodes = (start, end, rules) => {
+  res = [];
+  for (let i = start; i <= end; i++) {
+    const valid = rules.reduce((c, rule) => c ? rule(i) : c , true);
+    if (valid) res.push(i);
+  }
+  return res;
+}
 
-console.log(res)
+console.log(searchCodes(264360, 746325,
+  [
+    x => rule1(x),
+    x => rule2(x)
+  ]).length);
+
+
+//test
+test("resolution day 4", () => {
+  expect(searchCodes(264360, 746325,
+    [x => rule1(x), x => rule2(x)]).length).toBe(617)
+});
+
+test("test rule1", () => {
+  expect(rule1('10112223')).toBe(true);
+  expect(rule1('112223')).toBe(true);
+  expect(rule1('122233')).toBe(true);
+  expect(rule1('12223303')).toBe(true);
+  expect(rule1('101112223')).toBe(false);
+  expect(rule1('1112223')).toBe(false);
+  expect(rule1('111222333')).toBe(false);
+  expect(rule1('1011122233303')).toBe(false);
+})
+
+test("test rule2", () => {
+  expect(rule2('11222333')).toBe(true);
+  expect(rule2('112223330')).toBe(false);
+})
 
 test("dummy", () => { })

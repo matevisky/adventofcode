@@ -7,8 +7,9 @@ const statuses = {
 }
 
 const defaults = {
-  MAX_STEP: 999,
+  MAX_STEP: 99999999,
   DEFAULT_COMPUTER_NAME: 'default',
+  DEFAULT_MEMORY_SIZE: 1000000,
   // DEFAULT_MAINFRAME: [99],
   DEFAULT_MAINFRAME: [98, 1, 98, 1, 98, 1, 99],
 }
@@ -16,6 +17,7 @@ const defaults = {
 class Computer {
   constructor(mainFrame = defaults.DEFAULT_MAINFRAME, params = {}) {
     this.memory = [...mainFrame];
+    this.relativeBase = 0;
     this.input = params.input || [];
     this.output = [];
     this.position = Number(params.position || 0) || 0;
@@ -30,6 +32,11 @@ class Computer {
       maxStep: Number(params.maxStep || defaults.MAX_STEP) || 999,
       message: "",
     };
+
+    while (this.memory.length < defaults.DEFAULT_MEMORY_SIZE) {
+      this.memory.push(0);
+    }
+
   }
 
   * runComputer() {
@@ -69,6 +76,7 @@ class Computer {
       6: () => this.command6(),
       7: () => this.command7(),
       8: () => this.command8(),
+      9: () => this.command9(),
       98: () => this.command98(),
       99: () => this.command99(),
       error: () =>this.commandError(),
@@ -80,19 +88,22 @@ class Computer {
   }
 
   command1() {
-    this.memory[this.memory[this.position + 3]] = this.a + this.b
+    this.putPositionValue(this.a + this.b, this.command.mc, 3);
+    // this.memory[this.memory[this.position + 3]] = this.a + this.b
     this.position += 4;
     return true;
   }
 
   command2() {
-    this.memory[this.memory[this.position + 3]] = this.a * this.b
+    this.putPositionValue(this.a * this.b, this.command.mc, 3);
+    // this.memory[this.memory[this.position + 3]] = this.a * this.b
     this.position += 4;
     return true;
   }
 
   command3() {
-    this.memory[this.memory[this.position + 1]] = this.a;
+    this.putPositionValue(this.a, this.command.ma, 1);
+    // this.memory[this.memory[this.position + 1]] = this.a;
     this.position += 2;
     return true;
   }
@@ -114,14 +125,21 @@ class Computer {
   }
 
   command7() {
-    this.memory[this.memory[this.position + 3]] = this.a < this.b ? 1 : 0;
+    this.putPositionValue(this.a < this.b ? 1 : 0, this.command.mc, 3);
+    // this.memory[this.memory[this.position + 3]] = this.a < this.b ? 1 : 0;
     this.position += 4;
     return true;
   }
 
   command8() {
-    this.memory[this.memory[this.position + 3]] = this.a == this.b ? 1 : 0;
+    this.putPositionValue(this.a == this.b ? 1 : 0, this.command.mc, 3);
+    // this.memory[this.memory[this.position + 3]] = this.a == this.b ? 1 : 0;
     this.position += 4;
+    return true;
+  }
+  command9() {
+    this.relativeBase += this.a;
+    this.position += 2;
     return true;
   }
 
@@ -141,6 +159,7 @@ class Computer {
     return false;
   }
 
+
   * getParameters() {
     this.a = null;
     this.b = null;
@@ -158,10 +177,22 @@ class Computer {
       this.a = this.input.shift();
       return true;
     }
-    this.a = Number(this.command.ma ? this.memory[this.position + 1] : this.memory[this.memory[this.position + 1]]);
-    this.b = Number(this.command.mb ? this.memory[this.position + 2] : this.memory[this.memory[this.position + 2]]);
+    this.a = Number(this.getPositionValue(this.command.ma, 1));
+    this.b = Number(this.getPositionValue(this.command.mb, 2));
 
     return true;
+  }
+
+  getPositionValue(m, o) {
+    if (m == 0) return this.memory[this.memory[this.position + o]];
+    if (m == 1) return this.memory[this.position + o];
+    if (m == 2) return this.memory[this.relativeBase + this.memory[this.position + o]];
+  }
+
+  putPositionValue(value, m, o) {
+    if (m == 0) this.memory[this.memory[this.position + o]] = value
+    // if (m == 1) return this.memory[this.position + o];
+    if (m == 2) this.memory[this.relativeBase + this.memory[this.position + o]] = value;
   }
 
   getNextCommand() {

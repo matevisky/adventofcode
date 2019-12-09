@@ -42,4 +42,33 @@ test("day05", () => {
   expect(c.input).toMatchObject([])
   expect(c.output).toMatchObject([0,0,0,0,0,0,0,0,0,15259545])
 })
+
+test("day09", () => {
+  let c, i, mainframe;
+  mainframe = [109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99];
+  c = new Computer(mainframe)
+  i = c.runComputer();
+  i.next().value;
+  expect(c.status).toBe(99)
+  expect(c.input).toMatchObject([])
+  expect(c.output).toMatchObject([109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99])
+
+  mainframe = [104, 1125899906842624, 99];
+  c = new Computer(mainframe)
+  i = c.runComputer();
+  i.next().value;
+  expect(c.status).toBe(99)
+  expect(c.input).toMatchObject([])
+  expect(c.output).toMatchObject([1125899906842624])
+
+  mainframe = [1102,34915192,34915192,7,4,7,99,0];
+  c = new Computer(mainframe)
+  i = c.runComputer();
+  i.next().value;
+  expect(c.status).toBe(99)
+  expect(c.input).toMatchObject([])
+  expect(c.output).toMatchObject([1219070632396864])
+})
+
 test("dummy", () => { })
+

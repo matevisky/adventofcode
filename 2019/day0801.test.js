@@ -9,14 +9,10 @@ for (let i = 0; i < size; i++) {
   currentImage += "2";
 }
 
-currentImage[0] = "a";
-console.log(currentImage);
-
 for (let i = 0; i < input.length / size; i++){
   for (let j = 0; j < size; j++) {
     const c= i * size + j
     if (currentImage[j] < 2) continue;
-    // console.log(input[c]);
     if (input[c] == 2) continue;
     currentImage = currentImage.substring(0, j) + input[c] + currentImage.substring(j + 1, currentImage.length);
   }

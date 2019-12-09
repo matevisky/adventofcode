@@ -197,10 +197,50 @@ class Computer {
 }
 
 
-c = new Computer();
-i = c.runComputer();
-console.log(i.next().value);
+test("run computer basic", () => {
+  let c, i;
+  c = new Computer([99]);
+  i = c.runComputer();
+  i.next().value;
+  expect(c.status).toBe(99)
 
+  c = new Computer([3,0,4,0,99], {input: [999]})
+  i = c.runComputer();
+  i.next().value;
+  console.log(c);
+  expect(c.status).toBe(99)
+  expect(c.input).toMatchObject([])
+  expect(c.output).toMatchObject([999])
+  // let computer2 = { memory: [3,0,4,0,99], input: [999], output: [] }
+  // let computer2Result = { ...computer2, input: [], output: [999], memory: [999, 0, 4, 0, 99] }
+  // let res2 = runComputer(computer2);
+  // expect(res2).toMatchObject(computer2Result)
+
+  // let computer3 = {
+  //   memory: [3,3,1105,-1,9,1101,0,0,12,4,12,99,1],
+  //   input: [1],
+  //   output: []
+  // }
+  // let computer3Result = { input: [], output: [1],  }
+  // let res3 = runComputer(computer3);
+  // expect(res3).toMatchObject(computer3Result)
+  // let computer4 = {
+  //   memory: [3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9],
+  //   input: [0],
+  //   output: []
+  // }
+  // let computer4Result = { input: [], output: [0],  }
+  // let res4 = runComputer(computer4);
+  // expect(res4).toMatchObject(computer4Result)
+  // let computer5 = {
+  //   memory: [3, 21, 1008, 21, 8, 20, 1005, 20, 22, 107, 8, 21, 20, 1006, 20, 31, 1106, 0, 36, 98, 0, 0, 1002, 21, 125, 20, 4, 20, 1105, 1, 46, 104, 999, 1105, 1, 46, 1101, 1000, 1, 20, 4, 20, 1105, 1, 46, 98, 99],
+  //   input: [1],
+  //   output: []
+  // }
+  // let computer5Result = { input: [], output: [999],  }
+  // let res5 = runComputer(computer5);
+  // expect(res5).toMatchObject(computer5Result)
+})
 
 test("dummy", () => { })
 

@@ -2,7 +2,7 @@ var request = require('request');
 
 // https://adventofcode.com/2015/day/1/input
 const baseUrl = `https://adventofcode.com`
-const sessionCookie = `53616c7465645f5f69b3227fd782bdf195913354036ca97265792a9505f64fb64609090ab28c0a9871d1f8f25d1da714`;
+const sessionCookie = ``;
 
 const getOptions = () => {
   var cookie = request.cookie(`session=${sessionCookie}`);

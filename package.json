@@ -1,0 +1,11 @@
+{
+  "name": "advent",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:matevisky/adventofcode.git",
+  "author": "Mate Visky <matevisky@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.88.0"
+  }
+}

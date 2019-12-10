@@ -1,13 +1,51 @@
-const input = `......#.#.
-#..#.#....
-..#######.
-.#.#.###..
-.#..#.....
-..#....#.#
-#..#....#.
-.##.#..###
-##...#..#.
-.#....####`;
+const input = `#.#................#..............#......#......
+.......##..#..#....#.#.....##...#.........#.#...
+.#...............#....#.##......................
+......#..####.........#....#.......#..#.....#...
+.....#............#......#................#.#...
+....##...#.#.#.#.............#..#.#.......#.....
+..#.#.........#....#..#.#.........####..........
+....#...#.#...####..#..#..#.....#...............
+.............#......#..........#...........#....
+......#.#.........#...............#.............
+..#......#..#.....##...##.....#....#.#......#...
+...#.......##.........#.#..#......#........#.#..
+#.............#..........#....#.#.....#.........
+#......#.#................#.......#..#.#........
+#..#.#.....#.....###..#.................#..#....
+...............................#..........#.....
+###.#.....#.....#.............#.......#....#....
+.#.....#.........#.....#....#...................
+........#....................#..#...............
+.....#...#.##......#............#......#.....#..
+..#..#..............#..#..#.##........#.........
+..#.#...#.......#....##...#........#...#.#....#.
+.....#.#..####...........#.##....#....#......#..
+.....#..#..##...............................#...
+.#....#..#......#.#............#........##...#..
+.......#.....................#..#....#.....#....
+#......#..###...........#.#....#......#.........
+..............#..#.#...#.......#..#.#...#......#
+.......#...........#.....#...#.............#.#..
+..##..##.............#........#........#........
+......#.............##..#.........#...#.#.#.....
+#........#.........#...#.....#................#.
+...#.#...........#.....#.........#......##......
+..#..#...........#..........#...................
+.........#..#.......................#.#.........
+......#.#.#.....#...........#...............#...
+......#.##...........#....#............#........
+#...........##.#.#........##...........##.......
+......#....#..#.......#.....#.#.......#.##......
+.#....#......#..............#.......#...........
+......##.#..........#..................#........
+......##.##...#..#........#............#........
+..#.....#.................###...#.....###.#..#..
+....##...............#....#..................#..
+.....#................#.#.#.......#..........#..
+#........................#.##..........#....##..
+.#.........#.#.#...#...#....#........#..#.......
+...#..#.#......................#...............#`;
 const input2 = `#.#................#..............#......#......
 .......##..#..#....#.#.....##...#.........#.#...
 .#...............#....#.##......................
@@ -84,16 +122,19 @@ const isValidCord = (currentAsteroid, yy, xx) => {
 
 const getMaxVisible = (y, x) => {
   let visited = new Set();
+  let queueAdded = new Set();
   visited.add(`${y},${x}`);
+  queueAdded.add(`${y},${x}`);
   const resultAsteroid = [];
   currentAsteroid = getAsteroid(input);
   let queue = [[y, x]]
   let so = 0;
+  let so1 = 0;
   while (queue.length > 0) {
     so++;
     const [cy, cx] = queue.shift();
     const key = `${cy},${cx}`
-    const vectors = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    const vectors = [[1, 0], [-1, 0], [0, 1], [0, -1],[1, 1], [-1, -1], [1, -1], [-1, 1]]
     vectors.forEach(v => {
       let xx = v[1] + cx;
       let yy = v[0] + cy;
@@ -102,6 +143,8 @@ const getMaxVisible = (y, x) => {
       }
       const vectorKey = `${yy},${xx}`
       if (visited.has(vectorKey)) return;
+      if (queueAdded.has(vectorKey)) return;
+      queueAdded.add(vectorKey);
       queue.push([yy, xx]);
     })
     if (visited.has(key)) continue;
@@ -115,7 +158,6 @@ const getMaxVisible = (y, x) => {
       vx = vx1 / vvv;
       // if (vvv > 1) {
         // console.log(vy1, vx1, vvv, vy, vx)
-
       // }
 
       let ay = y;
@@ -129,7 +171,6 @@ const getMaxVisible = (y, x) => {
       } while(isValidCord(currentAsteroid, ay, ax))
     }
   }
-  // console.log(visited, currentCount, visited.size);
   return resultAsteroid;
 }
 
@@ -155,26 +196,83 @@ for (let y = 0; y < currentAsteroid.length; y++) {
   console.log(out);
   console.log(result.length);
 }
-// printAsteroid(getAsteroid(input), getMaxVisible(21, 4), 21, 4)
+// printAsteroid(getAsteroid(input), getMaxVisible(2, 2), 2, 2)
 
 // console.log(getMaxVisible(21, 4));
 
 // console.log()
 
-let currentMax = 0;
+// let currentMax = 0;
 let masterAsteroid = getAsteroid(input);
+// for (let y = 0; y < masterAsteroid.length; y++) {
+//   for (let x = 0; x < masterAsteroid[0].length; x++) {
+//     if (masterAsteroid[y][x] == 0) continue
+//     const max = getMaxVisible(y, x).length;
+//     if (max > currentMax) {
+//       currentMax = max;
+//       console.log(y, x, currentMax);
+//     }
+//   }
+// }
+// console.log(currentMax);
+
+//25 37 309
+
+//console.log(masterAsteroid.length, masterAsteroid[0].length);
+//calculate distance and degree
+// let py = 25;
+// let px = 37;
+let py = 13;
+let px = 11;
+const asteroids = [];
+const asteroidDegrees = new Set();
 for (let y = 0; y < masterAsteroid.length; y++) {
   for (let x = 0; x < masterAsteroid[0].length; x++) {
     if (masterAsteroid[y][x] == 0) continue
-    const max = getMaxVisible(y, x).length;
-    if (max > currentMax) {
-      currentMax = max;
-      console.log(y, x, currentMax);
-    }
+    if (y == py && x == px) continue
+    let rx = x - px;
+    let ry = py - y;
+    let degree = Math.atan2(rx, ry) * 180 / Math.PI;
+    if (degree < 0) degree += 360;
+    degree = Number(Math.round(degree* 1000))
+    asteroidDegrees.add(degree);
+    asteroids.push({
+      dist: Math.sqrt(ry * ry + px * px),
+      degree,
+      alive: true,
+      x,
+      y,
+      rx,
+      ry
+    })
   }
 }
-console.log(currentMax);
+let ad = Array.from(asteroidDegrees).sort((i, j) => i - j)
+let result = []
+let i = 0
+while (result.length <= 200) {
+  let currentDegree = ad[i]
+  let currentAsteroids = asteroids
+    .filter(i => i.degree == currentDegree && i.alive)
+    .sort((i, j) => i.dist > j.dist ? 1 : -1)
 
+  if (currentAsteroids.length == 0) continue;
+  currentAsteroids[0].alive = false;
+  let x = currentAsteroids[0].x;
+  let y = currentAsteroids[0].y;
+
+  console.log(i, currentAsteroids[0])
+  result.push({ x,y });
+
+  i++;
+  if (i > ad.length) i = 0;
+}
+
+console.log(result[199]);
+// console.log((new Set(result)).size);
+
+console.log(asteroids.length, asteroidDegrees.size)
+// console.log(asteroids);
 
 
 test("dummy", () => { })

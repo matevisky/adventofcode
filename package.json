@@ -6,6 +6,9 @@
   "author": "Mate Visky <matevisky@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "request": "^2.88.0"
+    "dotenv": "^8.2.0",
+    "node-fetch": "^2.6.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.5"
   }
 }

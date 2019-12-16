@@ -9,6 +9,7 @@
     "dotenv": "^8.2.0",
     "md5": "^2.2.1",
     "node-fetch": "^2.6.0",
+    "readline-sync": "^1.4.10",
     "request": "^2.88.0",
     "request-promise": "^4.2.5"
   }

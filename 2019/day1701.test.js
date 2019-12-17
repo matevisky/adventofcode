@@ -5,12 +5,12 @@ let cState = c.runComputer();
 
 let code = []
 code = `A,B,A,C,C,A,B,C,B,B
-L8,R10,L8,R8
-L12,R8,R8
-L8,R6,R6,R10,L8
-y
+L,8,R,10,L,8,R,8
+L,12,R,8,R,8
+L,8,R,6,R,6,R,10,L,8
+n
 `
-// code = [`\n`,
+// code = [`\n`,`
 // `L8,R10,L8,R8\n`,
 // `L12,R8,R8\n`,
 // `L8,R6,R6,R10,L8\n`,
@@ -20,11 +20,11 @@ console.log(code.split("").map(j => j.charCodeAt(0)).join(" "))
 c.input = code.split("").map(j => j.charCodeAt(0))
 // console.log(c.input)
 cState.next();
-console.log(c.output.map(i => String.fromCharCode(i)).join(""))
-console.log('[][][][][]')
-cState.next();
-console.log(c.output.map(i => String.fromCharCode(i)).join(""))
-console.log('[][][][][]')
+// console.log(c.output.map(i => String.fromCharCode(i)).join(""))
+// console.log('[][][][][]')
+// cState.next();
+// console.log(c.output.map(i => String.fromCharCode(i)).join(""))
+// console.log('[][][][][]')
 // let code = [];
 
 // code = [`A,B,A,C,C,A,B,C,B,B\n`]
@@ -59,7 +59,7 @@ console.log('[][][][][]')
 // cState.next();
 // cState.next();
 // cState.next();
-// console.log(c.output[c.output.length - 1]);
+console.log(c.output[c.output.length - 1]);
 // console.log(c)
 // const input = c.output
 // const map = [];
@@ -94,7 +94,7 @@ console.log('[][][][][]')
 
 // console.log(c);
 
-console.log(c.output.map(i => String.fromCharCode(i)).join(""))
+// console.log(c.output.map(i => String.fromCharCode(i)).join(""))
 
 
 test("dummy", () => { })
